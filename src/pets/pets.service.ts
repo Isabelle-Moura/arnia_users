@@ -1,4 +1,8 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { CreatePetDto } from './dto/create-pet.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Pets } from 'src/entities';
@@ -53,5 +57,39 @@ export class PetsService {
     }
   }
 
-  update(petId: number, payload: UpdatePetDto, userId: number) {}
+  async update(petId: number, payload: UpdatePetDto, userId: number) {
+    try {
+      const petToUpdate = await this.findOne(petId);
+
+      if (petToUpdate.user.id !== userId) {
+        throw new UnauthorizedException('This pet belongs to other user.');
+      }
+
+      await this.petsRepository.update(petId, payload);
+
+      return this.findOne(petId);
+    } catch (error) {
+      console.log(error);
+
+      throw new HttpException(error.message, error.status);
+    }
+  }
+
+  async findMyPets(userId: number) {
+    try {
+      const pets = await this.petsRepository.find({
+        where: {
+          user: {
+            id: userId,
+          },
+        },
+      });
+
+      return pets;
+    } catch (error) {
+      console.log(error);
+
+      throw new HttpException(error.message, error.status);
+    }
+  }
 }

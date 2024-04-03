@@ -14,14 +14,12 @@ import { UpdateAddressDto } from './dto/update-address.dto';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
 
 /* 
-   [] terminar! c) Faça uma rota para update de pets. Obs: Somente o usuário dono do pet pode modificá-lo.
-   [] terminar! d) Faça uma rota de get -> /pets/my-pets que retorna somente os pets do usuário logado.
-   [] c) Crie uma rota POST -> events.
-   [] d) Crie uma rota para o usuário participar do evento. (sugestão -> /post -> /events/:id/participate).
-   dica: events.paticipants.push(user)
+   [] a) Crie um decorator de CurrentUser para substituir nas rotas que se utiliza req.user.
+   [] b) Crie uma rota para fazer get de events.
 
    [] Desafio -> Documente as rotas criadas até agora com Swagger.
    [] Desafio -> Faça a paginação da rota de get Pets.
+   [] Desafio -> Faça uma query para filtrar por eventDate (a partir de "eventDate")- Exemplo: Eventos a partir de 31/08/2023.
 */
 
 @Controller('addresses')

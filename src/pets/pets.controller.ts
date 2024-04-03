@@ -11,7 +11,6 @@ import {
 import { PetsService } from './pets.service';
 import { CreatePetDto } from './dto/create-pet.dto';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
-import { UpdateAddressDto } from 'src/addresses/dto/update-address.dto';
 import { UpdatePetDto } from './dto/update-pet.dto';
 
 @Controller('pets')
@@ -20,8 +19,8 @@ export class PetsController {
 
   @UseGuards(AuthGuard)
   @Post()
-  create(@Body() createPetDto: CreatePetDto, @Req() request: Request) {
-    const user = request['user'];
+  create(@Body() createPetDto: CreatePetDto, @Req() req: Request) {
+    const user = req['user'];
     return this.petsService.create(user.id, createPetDto);
   }
 
@@ -35,19 +34,21 @@ export class PetsController {
     return this.petsService.find(breed);
   }
 
+  @UseGuards(AuthGuard)
   @Get('my-pets')
-  getMyPets() {
-    return this.petsService.find();
+  findMyPets(@Req() req: Request) {
+    const user = req['user'];
+    return this.petsService.findMyPets(+user.id);
   }
 
   @UseGuards(AuthGuard)
   @Patch(':id')
   update(
-    @Param('id') id: number,
+    @Param('id') petId: number,
     @Body() updatePetsDto: UpdatePetDto,
-    @Req() request: Request,
+    @Req() req: Request,
   ) {
-    const user = request['user'];
-    return this.petsService.update(+id, updatePetsDto, user.id);
+    const user = req['user'];
+    return this.petsService.update(+petId, updatePetsDto, user.id);
   }
 }

@@ -56,4 +56,8 @@ export class EventsService {
 
     return event;
   }
+
+  async findAll() {
+    return this.eventsRepository.find();
+  }
 }

@@ -5,13 +5,14 @@ import {
   Body,
   Param,
   UseGuards,
-  Req,
   Patch,
 } from '@nestjs/common';
 import { PetsService } from './pets.service';
 import { CreatePetDto } from './dto/create-pet.dto';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { UpdatePetDto } from './dto/update-pet.dto';
+import { CurrentUser } from 'src/decorators/current-user.decorator';
+import { CurrentUserDto } from 'src/decorators/dto/current-user.dto';
 
 @Controller('pets')
 export class PetsController {
@@ -19,8 +20,10 @@ export class PetsController {
 
   @UseGuards(AuthGuard)
   @Post()
-  create(@Body() createPetDto: CreatePetDto, @Req() req: Request) {
-    const user = req['user'];
+  create(
+    @Body() createPetDto: CreatePetDto,
+    @CurrentUser() user: CurrentUserDto,
+  ) {
     return this.petsService.create(user.id, createPetDto);
   }
 
@@ -36,8 +39,7 @@ export class PetsController {
 
   @UseGuards(AuthGuard)
   @Get('my-pets')
-  findMyPets(@Req() req: Request) {
-    const user = req['user'];
+  findMyPets(@CurrentUser() user: CurrentUserDto) {
     return this.petsService.findMyPets(+user.id);
   }
 
@@ -46,9 +48,8 @@ export class PetsController {
   update(
     @Param('id') petId: number,
     @Body() updatePetsDto: UpdatePetDto,
-    @Req() req: Request,
+    @CurrentUser() user: CurrentUserDto,
   ) {
-    const user = req['user'];
     return this.petsService.update(+petId, updatePetsDto, user.id);
   }
 }

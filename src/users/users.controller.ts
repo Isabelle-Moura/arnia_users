@@ -8,14 +8,14 @@ import {
   Delete,
   Query,
   ParseIntPipe,
-  Req,
   UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { Request } from 'express';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
+import { CurrentUserDto } from 'src/decorators/dto/current-user.dto';
+import { CurrentUser } from 'src/decorators/current-user.decorator';
 
 @Controller('users')
 export class UsersController {
@@ -38,9 +38,8 @@ export class UsersController {
 
   @UseGuards(AuthGuard)
   @Get('profile')
-  profile(@Req() request: Request) {
-    const user = request['user'];
-    return this.usersService.profile(user);
+  profile(@CurrentUser() user: CurrentUserDto) {
+    return this.usersService.profile(user.id);
   }
 
   @Patch(':id')

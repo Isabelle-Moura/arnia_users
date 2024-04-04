@@ -1,16 +1,26 @@
-import { Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  FileTypeValidator,
+  Get,
+  MaxFileSizeValidator,
+  Param,
+  ParseFilePipe,
+  Post,
+  Res,
+  UploadedFile,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 import { EventsService } from './events.service';
 import { CreateEventDto } from './dto/create-event.dto';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { CurrentUser } from 'src/decorators/current-user.decorator';
 import { CurrentUserDto } from 'src/decorators/dto/current-user.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { uploadPhotoConfig } from 'src/utils/upload-photo.config';
+import { Response } from 'express';
 
 /* 
-   [x] a) Crie um decorator de CurrentUser para substituir nas rotas que se utiliza req.user.
-   [x] b) Crie uma rota para fazer get de events.
-   [] a) Crie uma rota para envio de imagens do evento.
-   [] b) Crie uma rota para retornar a imagem pelo nome.
-
    [] Desafio -> Documente as rotas criadas até agora com Swagger.
    [] Desafio -> Faça a paginação da rota de get Pets.
    [] Desafio -> Faça uma query para filtrar por eventDate (a partir de "eventDate")- Exemplo: Eventos a partir de 31/08/2023.
@@ -24,6 +34,20 @@ export class EventsController {
   @Post()
   create(payload: CreateEventDto) {
     return this.eventsService.create(payload);
+  }
+
+  @Post(':id/upload-photo')
+  @UseInterceptors(FileInterceptor('photo', uploadPhotoConfig()))
+  uploadPhoto(
+    @UploadedFile()
+    file: Express.Multer.File,
+  ) {
+    return this.eventsService.uploadPhoto(file);
+  }
+
+  @Get('photo/:filename')
+  async getPhoto(@Param('filename') filename: string, @Res() res: Response) {
+    return res.sendFile(filename, { root: './uploads' });
   }
 
   @UseGuards(AuthGuard)

@@ -60,4 +60,8 @@ export class EventsService {
   async findAll() {
     return this.eventsRepository.find();
   }
+
+  async uploadPhoto(file: Express.Multer.File) {
+    return file;
+  }
 }

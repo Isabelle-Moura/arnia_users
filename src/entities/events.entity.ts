@@ -21,6 +21,9 @@ export class Events {
   @Column()
   eventDate: Date;
 
+  @Column()
+  photo: string;
+
   @CreateDateColumn()
   createdAt: Date;
 

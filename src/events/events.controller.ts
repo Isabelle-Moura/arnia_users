@@ -1,10 +1,8 @@
 import {
   Controller,
-  FileTypeValidator,
   Get,
-  MaxFileSizeValidator,
   Param,
-  ParseFilePipe,
+  ParseIntPipe,
   Post,
   Res,
   UploadedFile,
@@ -21,10 +19,12 @@ import { uploadPhotoConfig } from 'src/utils/upload-photo.config';
 import { Response } from 'express';
 
 /* 
-   [] Desafio -> Documente as rotas criadas até agora com Swagger.
-   [] Desafio -> Faça a paginação da rota de get Pets.
-   [] Desafio -> Faça uma query para filtrar por eventDate (a partir de "eventDate")- Exemplo: Eventos a partir de 31/08/2023.
-   [] Desafio -> Crie uma nova entidade images (id, imageLink, enventId)
+
+  [] TODO: Testar todas as rotas!
+  [] TODO: Fazer o lindo Swagger.
+
+   Erros: 
+   FIXME:
 */
 
 @Controller('events')
@@ -37,12 +37,13 @@ export class EventsController {
   }
 
   @Post(':id/upload-photo')
-  @UseInterceptors(FileInterceptor('photo', uploadPhotoConfig()))
+  @UseInterceptors(FileInterceptor('photos', uploadPhotoConfig()))
   uploadPhoto(
+    @Param('id', ParseIntPipe) id: number,
     @UploadedFile()
     file: Express.Multer.File,
   ) {
-    return this.eventsService.uploadPhoto(file);
+    return this.eventsService.uploadPhoto(id, file);
   }
 
   @Get('photo/:filename')
@@ -59,9 +60,9 @@ export class EventsController {
     return this.eventsService.participate(eventId, user.id);
   }
 
-  @Get()
-  findAll() {
-    return this.eventsService.findAll();
+  @Get(':eventDate')
+  findAll(@Param('eventDate') eventDate?: string) {
+    return this.eventsService.findAll(eventDate);
   }
 
   @Get(':id')

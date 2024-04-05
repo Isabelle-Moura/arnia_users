@@ -45,11 +45,20 @@ export class PetsService {
     }
   }
 
-  find(breed?: string) {
+  async find(page: number, limit: number, breed?: string) {
     try {
-      const pets = this.petsRepository.find({ where: { breed } });
+      const pets = await this.petsRepository.find({
+        where: { breed },
+        skip: (page - 1) * limit,
+        take: limit,
+      });
 
-      return pets;
+      return {
+        page: page,
+        pageSize: limit,
+        quantity: pets.length,
+        allPets: pets,
+      };
     } catch (error) {
       console.log(error);
 

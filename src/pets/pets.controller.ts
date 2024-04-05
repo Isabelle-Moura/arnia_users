@@ -6,6 +6,7 @@ import {
   Param,
   UseGuards,
   Patch,
+  Query,
 } from '@nestjs/common';
 import { PetsService } from './pets.service';
 import { CreatePetDto } from './dto/create-pet.dto';
@@ -33,8 +34,12 @@ export class PetsController {
   }
 
   @Get()
-  getPets(@Param('breed') breed?: string) {
-    return this.petsService.find(breed);
+  getPets(
+    @Query('page') page = 1,
+    @Query('limit') limit = 5,
+    @Query('breed') breed?: string,
+  ) {
+    return this.petsService.find(page, limit, breed);
   }
 
   @UseGuards(AuthGuard)

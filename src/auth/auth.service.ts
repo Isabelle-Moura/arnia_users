@@ -13,6 +13,8 @@ export class AuthService {
   async login(loginDto: LoginDto) {
     const user = await this.usersService.findByEmail(loginDto.email);
 
+   // const comparePassword = 
+
     if (user.password !== loginDto.password) {
       throw new UnauthorizedException('E-mail or Password wrong. Try again.');
     }

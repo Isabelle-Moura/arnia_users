@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   ConflictException,
+  HttpException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -10,6 +11,7 @@ import { Repository } from 'typeorm';
 import { CreateEventDto } from './dto/create-event.dto';
 import { UsersService } from 'src/users/users.service';
 import { ConfigService } from '@nestjs/config';
+import { UpdateEventDto } from './dto/update-event.dto';
 
 @Injectable()
 export class EventsService {
@@ -93,5 +95,19 @@ export class EventsService {
     await this.imagesRepository.save(newEventPhoto);
 
     return newEventPhoto;
+  }
+
+  async update(id: number, payload: UpdateEventDto) {
+    try {
+      const userToUpdate = this.findOne(id);
+
+      await this.eventsRepository.update((await userToUpdate).id, payload);
+
+      return await this.findOne(id);
+    } catch (error) {
+      console.log(error);
+
+      throw new HttpException(error.message, error.status);
+    }
   }
 }

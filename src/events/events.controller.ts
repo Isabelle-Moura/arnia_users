@@ -21,21 +21,6 @@ import { uploadPhotoConfig } from 'src/utils/upload-photo.config';
 import { Response } from 'express';
 import { UpdateEventDto } from './dto/update-event.dto';
 
-/* 
-
-  [] TODO: Testar todas as rotas!
-  [] TODO: Fazer o lindo Swagger.
-
-  [x] a) Crie uma rota para editar a data de um evento existente.
-  [] b) Documente a aplicação.
-  [] c) Faça o DER da aplicação.
-
-  [] Desafio: Prepare o ambiente para teste do UserService (Mocks)
-
-   Erros: 
-   FIXME:
-*/
-
 @Controller('events')
 export class EventsController {
   constructor(private readonly eventsService: EventsService) {}

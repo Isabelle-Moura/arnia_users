@@ -8,9 +8,6 @@ import { usersMock } from '../testing/users/users.mock';
 /* 
   [] TODO: Fazer o Swagger.
   [] TODO: Todos os testes passados.
-  [] TODO: Faça o DER da aplicação.
-
-  [] FIXME: Todos os testes.
 */
 
 describe('UsersService', () => {

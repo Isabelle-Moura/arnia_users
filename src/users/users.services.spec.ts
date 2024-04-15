@@ -1,13 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UsersService } from './users.service';
-import { NotFoundException } from '@nestjs/common';
+import { userMock } from '../testing/users/user.mock';
+import { userRepositoryMock } from '../testing/users/users-repository.mock';
+import { createUserMockDto } from '../testing/users/create-user-dto.mock';
+import { usersMock } from '../testing/users/users.mock';
 
 /* 
-
-  [] TODO: Testar todas as rotas!
   [] TODO: Fazer o Swagger.
   [] TODO: Todos os testes passados.
-  [] TODO: c) Faça o DER da aplicação.
+  [] TODO: Faça o DER da aplicação.
 
   [] FIXME: Todos os testes.
 */
@@ -28,37 +29,43 @@ describe('UsersService', () => {
   });
 
   describe('create', () => {
-    it('should successfully create a user', async () => {
-      const userDto = { email: 'test@example.com', password: '123456' };
-      const result = await service.create(userDto);
-      expect(result).toMatchObject(userDto);
-    });
-  });
+    it('should create a new user', async () => {
+      const user = await service.create(createUserMockDto);
 
-  describe('findAll', () => {
-    it('should return an empty array if no users are found', async () => {
-      const result = await service.findAll();
-      expect(result).toEqual([]);
-    });
-  });
-
-  describe('findByEmail', () => {
-    it('should throw NotFoundException if user is not found', async () => {
-      await expect(service.findByEmail('test@example.com')).rejects.toThrow(
-        NotFoundException,
+      expect(user).toEqual(userMock);
+      expect(userRepositoryMock.useValue.create).toHaveBeenCalledWith(
+        createUserMockDto,
       );
     });
   });
 
+  describe('findAll', () => {
+    it('findAll', async () => {
+      const users = await service.findAll();
+
+      expect(users).toEqual(usersMock);
+    });
+  });
+
   describe('update', () => {
-    it('should throw NotFoundException if user is not found', async () => {
-      await expect(service.update(1, {})).rejects.toThrow(NotFoundException);
+    it('should return a updated user', async () => {
+      const updatedUser = await service.update(1, createUserMockDto);
+
+      expect(updatedUser).toEqual(userMock);
+    });
+  });
+
+  describe('findByEmail', () => {
+    it('should return an user by e-mail', async () => {
+      const user = await service.findByEmail(userMock.email);
+      expect(user).toEqual(userMock);
     });
   });
 
   describe('delete', () => {
-    it('should throw NotFoundException if user is not found', async () => {
-      await expect(service.delete(1)).rejects.toThrow(NotFoundException);
+    it('should delete an user successfully', async () => {
+      const user = await service.delete(1);
+      expect(user).toBeUndefined();
     });
   });
 });

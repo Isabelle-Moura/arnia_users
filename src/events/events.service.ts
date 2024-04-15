@@ -6,10 +6,10 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Events, Images } from 'src/entities';
+import { Events, Images } from '../entities';
 import { Repository } from 'typeorm';
 import { CreateEventDto } from './dto/create-event.dto';
-import { UsersService } from 'src/users/users.service';
+import { UsersService } from '../users/users.service';
 import { ConfigService } from '@nestjs/config';
 import { UpdateEventDto } from './dto/update-event.dto';
 
@@ -84,6 +84,8 @@ export class EventsService {
     if (!file) {
       throw new BadRequestException('File is not an image.');
     }
+
+    console.log(file);
 
     const imageLink = `${this.configService.get('BASE_URL')}/events/photo/${file.filename}`;
 

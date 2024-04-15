@@ -13,11 +13,11 @@ import {
 } from '@nestjs/common';
 import { EventsService } from './events.service';
 import { CreateEventDto } from './dto/create-event.dto';
-import { AuthGuard } from 'src/auth/guards/auth.guard';
-import { CurrentUser } from 'src/decorators/current-user.decorator';
-import { CurrentUserDto } from 'src/decorators/dto/current-user.dto';
+import { AuthGuard } from '../auth/guards/auth.guard';
+import { CurrentUser } from '../decorators/current-user.decorator';
+import { CurrentUserDto } from '../decorators/dto/current-user.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { uploadPhotoConfig } from 'src/utils/upload-photo.config';
+import { uploadPhotoConfig } from '../utils/upload-photo.config';
 import { Response } from 'express';
 import { UpdateEventDto } from './dto/update-event.dto';
 
@@ -54,7 +54,7 @@ export class EventsController {
     return this.eventsService.participate(eventId, user.id);
   }
 
-  @Get(':eventDate')
+  @Get()
   findAll(@Param('eventDate') eventDate?: string) {
     return this.eventsService.findAll(eventDate);
   }

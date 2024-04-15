@@ -18,7 +18,7 @@ export class Events {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ nullable: false })
   eventName: string;
 
   @Column()

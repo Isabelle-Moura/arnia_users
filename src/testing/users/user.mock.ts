@@ -4,7 +4,6 @@ export const userMock = {
   password: 'testing',
   isActive: true,
   createdAt: new Date(),
-  updatedAt: new Date(),
   deletedAt: new Date(),
   address: {
     id: 1,

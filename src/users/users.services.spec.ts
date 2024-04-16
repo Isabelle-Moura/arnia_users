@@ -5,17 +5,12 @@ import { userRepositoryMock } from '../testing/users/users-repository.mock';
 import { createUserMockDto } from '../testing/users/create-user-dto.mock';
 import { usersMock } from '../testing/users/users.mock';
 
-/* 
-  [] TODO: Fazer o Swagger.
-  [] TODO: Todos os testes passados.
-*/
-
 describe('UsersService', () => {
   let service: UsersService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [UsersService],
+      providers: [UsersService, userRepositoryMock],
     }).compile();
 
     service = module.get<UsersService>(UsersService);
@@ -61,8 +56,13 @@ describe('UsersService', () => {
 
   describe('delete', () => {
     it('should delete an user successfully', async () => {
-      const user = await service.delete(1);
-      expect(user).toBeUndefined();
+      const mockDelete = jest
+        .spyOn(service, 'delete')
+        .mockReturnValue(true as any);
+      await service.delete(1);
+
+      expect(mockDelete).toHaveBeenCalledTimes(1);
+      expect(mockDelete).toHaveBeenCalledWith(1);
     });
   });
 });

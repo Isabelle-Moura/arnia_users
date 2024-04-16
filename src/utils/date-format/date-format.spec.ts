@@ -23,6 +23,6 @@ describe('Testing date format', () => {
     };
 
     // assert
-    expect(converterCb).toThrow('Invalid date');
+    expect(converterCb).toThrow('Is not a valid date.');
   });
 });

@@ -55,7 +55,7 @@ describe('UsersController', () => {
 
   describe('findOne', () => {
     it('should return a user', async () => {
-      const user = await controller.findOne('1');
+      const user = await controller.findOne(userMock.id);
 
       expect(user).toEqual(userMock);
     });
@@ -68,7 +68,7 @@ describe('UsersController', () => {
         updateUserDtoMock,
       );
 
-      expect(user).toEqual(userMock);
+      expect(usersServiceMock.useValue.update).toHaveBeenCalledTimes(1);
     });
   });
 

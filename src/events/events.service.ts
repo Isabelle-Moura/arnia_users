@@ -36,7 +36,7 @@ export class EventsService {
 
   async findOne(id: number) {
     try {
-      const event = await this.eventsRepository.findOneOrFail({
+      const event = await this.eventsRepository.findOne({
         where: {
           id,
         },
@@ -46,9 +46,13 @@ export class EventsService {
         },
       });
 
+      if (!event) {
+        throw new NotFoundException('Event not found');
+      }
+
       return event;
     } catch (error) {
-      throw new NotFoundException('Event not found');
+      throw new HttpException(error.message, error.status);
     }
   }
 
@@ -84,8 +88,6 @@ export class EventsService {
     if (!file) {
       throw new BadRequestException('File is not an image.');
     }
-
-    console.log(file);
 
     const imageLink = `${this.configService.get('BASE_URL')}/events/photo/${file.filename}`;
 

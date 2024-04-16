@@ -4,22 +4,18 @@ import { UsersService } from '../users/users.service';
 import { loginDtoMock } from '../testing/auth/login-dto.mock';
 import { token } from '../testing/auth/token.mock';
 import * as bcrypt from 'bcrypt';
+import { usersServiceMock } from '../testing/users/users-service.mock';
+import { JwtService } from '@nestjs/jwt';
+import { jwtServiceMock } from '../testing/auth/jwt-service.mock';
 
 describe('AuthService', () => {
   let authService: AuthService;
   let usersService: UsersService;
+  let jwtService: JwtService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        AuthService,
-        {
-          provide: UsersService,
-          useValue: {
-            findByEmail: jest.fn(),
-          },
-        },
-      ],
+      providers: [AuthService, usersServiceMock, jwtServiceMock],
     }).compile();
 
     authService = module.get<AuthService>(AuthService);

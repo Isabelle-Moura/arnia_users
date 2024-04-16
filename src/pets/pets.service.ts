@@ -5,9 +5,9 @@ import {
 } from '@nestjs/common';
 import { CreatePetDto } from './dto/create-pet.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Pets } from 'src/entities';
+import { Pets } from '../entities';
 import { Repository } from 'typeorm';
-import { UsersService } from 'src/users/users.service';
+import { UsersService } from '../users/users.service';
 import { UpdatePetDto } from './dto/update-pet.dto';
 
 @Injectable()

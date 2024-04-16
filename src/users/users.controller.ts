@@ -13,9 +13,9 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { AuthGuard } from 'src/auth/guards/auth.guard';
-import { CurrentUserDto } from 'src/decorators/dto/current-user.dto';
-import { CurrentUser } from 'src/decorators/current-user.decorator';
+import { AuthGuard } from '../auth/guards/auth.guard';
+import { CurrentUserDto } from '../decorators/dto/current-user.dto';
+import { CurrentUser } from '../decorators/current-user.decorator';
 
 @Controller('users')
 export class UsersController {
@@ -32,7 +32,7 @@ export class UsersController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: number) {
     return this.usersService.findOne(+id);
   }
 

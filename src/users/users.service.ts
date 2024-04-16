@@ -46,12 +46,21 @@ export class UsersService {
     }
   }
 
-  findOne(id: number) {
-    if (!id) {
-      throw new NotFoundException('User not found');
-    }
+  async findOne(id: number) {
+    try {
+      const user = await this.usersRepository.findOneOrFail({
+        where: {
+          id,
+        },
+      });
 
-    return this.usersRepository.findOne({ where: { id } });
+      return user;
+    } catch (error) {
+      throw new HttpException(
+        error?.message,
+        error?.status || 'User not found',
+      );
+    }
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {

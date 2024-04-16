@@ -10,10 +10,10 @@ import {
 } from '@nestjs/common';
 import { PetsService } from './pets.service';
 import { CreatePetDto } from './dto/create-pet.dto';
-import { AuthGuard } from 'src/auth/guards/auth.guard';
+import { AuthGuard } from '../auth/guards/auth.guard';
 import { UpdatePetDto } from './dto/update-pet.dto';
-import { CurrentUser } from 'src/decorators/current-user.decorator';
-import { CurrentUserDto } from 'src/decorators/dto/current-user.dto';
+import { CurrentUser } from '../decorators/current-user.decorator';
+import { CurrentUserDto } from '../decorators/dto/current-user.dto';
 
 @Controller('pets')
 export class PetsController {

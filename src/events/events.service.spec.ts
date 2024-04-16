@@ -30,7 +30,10 @@ describe('EventsService', () => {
 
   describe('uploadPhoto', () => {
     it('Should upload an file successfully.', async () => {
-      const result = await service.uploadPhoto(2, await getFileMock());
+      const result = await service.uploadPhoto(
+        eventPhotoMock.eventId as any,
+        await getFileMock(),
+      );
 
       expect(result).toEqual(eventPhotoMock);
     });

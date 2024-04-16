@@ -4,7 +4,7 @@ import {
   TypeOrmModuleOptions,
 } from '@nestjs/typeorm';
 import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
-import { Events, Users, Addresses, Pets, Images } from 'src/entities';
+import { Events, Users, Addresses, Pets, Images } from '../entities';
 
 export default <TypeOrmModuleAsyncOptions>{
   inject: [ConfigService],

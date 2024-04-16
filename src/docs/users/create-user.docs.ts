@@ -1,19 +1,15 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class CreateUserDoc {
+export class CreateUserDocs {
   @ApiProperty({
-    type: String,
-    title: 'E-mail',
-    example: 'hamster@gmail.com',
-    description: `User's email at sign up.`,
+    description: 'User email',
+    example: 'user@example.com',
   })
   email: string;
 
   @ApiProperty({
-    type: String,
-    title: 'Password',
-    example: 'deoculos',
-    description: `User's password at sign up.`,
+    description: 'User password',
+    example: 'teste@123$$',
   })
   password: string;
 }

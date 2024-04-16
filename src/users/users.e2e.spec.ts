@@ -6,7 +6,7 @@ import { userRepositoryMock } from '../testing/users/users-repository.mock';
 import { UsersModule } from './users.module';
 
 /* 
-  [] TODO: Fazer o Swagger.
+  [] TODO: Continuar o Swagger.
   [] TODO: Testar todas as rotas.
 */
 
